@@ -1,0 +1,2 @@
+class JogsController < ApplicationController
+end
