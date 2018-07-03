@@ -1,0 +1,19 @@
+Started POST "/login" for 127.0.0.1 at 2017-09-08 15:30:23 +0300
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by AuthenticationController#login as */*
+  Parameters: {"email"=>"test2@mobex.md", "password"=>"[FILTERED]"}
+  [1m[36mUser Load (18.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "test2@mobex.md"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 46ms (Views: 0.5ms | ActiveRecord: 22.7ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2017-09-08 15:33:18 +0300
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#create as */*
+  Parameters: {"name"=>"Test2 Test2", "email"=>"test8@mobex.md", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (1.0ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "test8@mobex.md"], ["LIMIT", 1]]
+  [1m[35mSQL (1.1ms)[0m  [1m[32mINSERT INTO "users" ("email", "name", "created_at", "updated_at", "password_digest", "role") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["email", "test8@mobex.md"], ["name", "Test2 Test2"], ["created_at", "2017-09-08 12:33:19.438681"], ["updated_at", "2017-09-08 12:33:19.438681"], ["password_digest", "$2a$10$ft/bHmUvWke93VwrCm8EheIVwFbIwaLmOdkgHqoIp2z8/Kp6ajNE6"], ["role", "user"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+Completed 201 Created in 207ms (Views: 0.2ms | ActiveRecord: 13.0ms)
+
+

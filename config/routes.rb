@@ -4,4 +4,10 @@ Rails.application.routes.draw do
   resources :users do
     resources :jogs
   end
+  
+  post 'login', to: 'authentication#login'
+  get 'me', to: 'users#me'
+  put 'role/:id', to: 'users#update_role'
+  get 'users/users/all', to: 'users#users'
+  
 end

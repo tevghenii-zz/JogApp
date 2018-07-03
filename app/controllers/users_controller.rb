@@ -1,7 +1,14 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_request, only: :create, raise: false
+  load_and_authorize_resource
   
   def index
     @users = User.all
+    json_response(@users)
+  end
+  
+  def users
+    @users = User.where(:role => 'user')
     json_response(@users)
   end
   
@@ -17,7 +24,7 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
+    @user.update(update_user_params)
     head :no_content
   end
   
@@ -25,7 +32,17 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
     head :no_content
-  end  
+  end
+  
+  def me
+    json_response(@current_user)
+  end
+  
+  def update_role
+    @user = User.find(params[:id])
+    @user.update(update_user_role_params)
+    head :no_content    
+  end
   
   private
   
@@ -34,7 +51,11 @@ class UsersController < ApplicationController
   end
   
   def update_user_params
-    params.permit(:email, :name)
+    params.permit(:id, :name, :email)
   end
+  
+  def update_user_role_params
+    params.permit(:id, :role)
+  end  
   
 end

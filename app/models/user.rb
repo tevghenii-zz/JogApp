@@ -1,12 +1,22 @@
 class User < ApplicationRecord
+  before_save :default_values
+  
+  ROLES = %i[admin manager user]  
+  
   has_secure_password
   
-  has_many :assignments
-  has_many :roles, through: :assignments
+  validates :password, :password_confirmation, presence: true, length: { minimum: 6 }, on: :create
+  validates :name, presence: true
+  validates :email, presence: true, uniqueness: true
+  
   has_many :jogs
   
-  def role?(role)
-    roles.any? { |r| r.name.underscore.to_sym == role }
-  end
+  def default_values
+    self.role = 'user' if self.role.nil?
+  end  
   
+  def as_json(options = {})
+    super(options.merge({ except: [:password_digest] }))
+  end  
+    
 end
